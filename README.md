@@ -27,7 +27,7 @@ A browser-based, Fruit-Ninja-style slicing game controlled entirely by your bare
 ## 🚀 Live Demo
 
 **Website:**
-https://mateeba-khalid.github.io/Flower-Wand/
+
 
 ## 📂 Project Structure
 
@@ -49,9 +49,7 @@ index.html
 
 This project demonstrates real-time, physics-driven gameplay controlled entirely by AI-based hand tracking — no hardware beyond a standard webcam and a browser.
 
-## 👩‍💻 Author
+## Author
 
-**Mateeba Khalid**
-
-* LinkedIn: https://www.linkedin.com/in/mateeba-khalid-6b351232a/
+**RIDWANUR RAHMAN MAZUMDER**
 # Air-Slice
