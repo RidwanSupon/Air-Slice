@@ -245,7 +245,8 @@
   let fruits = [];    // active whole fruits/bombs, physics + collidable
   let pieces = [];    // sliced half-sprites, decorative only
   let particles = []; // juice splash dots
-  let fingertip = null; // {x,y} latest known from hand tracking
+  let targetFingertip = null; // {x,y} latest raw position from hand tracking
+  let displayFingertip = null; // smoothed position actually used for the blade, eased every frame
   let bladeTrail = []; // recent points for rendering + collision segment
   let lastSpawnAt = 0;
   let spawnInterval = 1000;
@@ -524,9 +525,20 @@
     lastFrameTime = ts;
     const dt = Math.min(rawDt, 3); // clamp to avoid huge jumps after tab was backgrounded
 
-    if(fingertip){
-      bladeTrail.push({ x: fingertip.x, y: fingertip.y, t: performance.now() });
+    if(targetFingertip){
+      if(!displayFingertip){
+        displayFingertip = { x: targetFingertip.x, y: targetFingertip.y };
+      } else {
+        const dx = targetFingertip.x - displayFingertip.x, dy = targetFingertip.y - displayFingertip.y;
+        const speed = Math.hypot(dx, dy);
+        // slow/still -> low alpha (heavier smoothing, kills jitter); fast swipe -> alpha near 1 (stays responsive)
+        const alpha = Math.min(1, 0.08 + speed/25); // near-still -> heavy smoothing; real swipe speed -> snaps to ~1 (no lag)
+        displayFingertip = { x: displayFingertip.x + dx*alpha, y: displayFingertip.y + dy*alpha };
+      }
+      bladeTrail.push({ x: displayFingertip.x, y: displayFingertip.y, t: performance.now() });
       if(bladeTrail.length > 14) bladeTrail.shift();
+    } else {
+      displayFingertip = null;
     }
 
     stepGame(dt);
@@ -555,12 +567,12 @@
 
   function onResults(results){
     if(!results.multiHandLandmarks || results.multiHandLandmarks.length === 0){
-      fingertip = null;
+      targetFingertip = null;
       return;
     }
     const lm = results.multiHandLandmarks[0];
     // use the index fingertip alone as the "blade point"
-    fingertip = mapToScreen(lm[8].x, lm[8].y);
+    targetFingertip = mapToScreen(lm[8].x, lm[8].y);
   }
 
   async function start(){
