@@ -17,17 +17,20 @@ A browser-based, Fruit-Ninja-style slicing game controlled entirely by your bare
 
 ## 🛠️ Technologies Used
 
-* HTML5
-* JavaScript
-* MediaPipe Hands
-* Canvas API (2D game rendering + physics)
-* Web Audio API
-* localStorage (high score)
+HTML5 — structure, single-file app
+CSS3 — UI styling, animations, gradients
+JavaScript (Vanilla) — no framework, pure JS
+MediaPipe Hands — real-time hand landmark detection (Google's ML model)
+MediaPipe Camera Utils — webcam feed handling
+Canvas API — 2D game rendering, physics, particle effects, sliced-fruit sprites
+Web Audio API — procedurally generated sound effects (slice, bomb, miss, combo) — no audio files
+localStorage — saves high score and lives preference across sessions
+getUserMedia API — webcam access
 
 ## 🚀 Live Demo
 
 **Website:**
-
+ridwansupon.github.io/Air-Slice/
 
 ## 📂 Project Structure
 
